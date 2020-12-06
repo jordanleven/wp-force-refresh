@@ -6,7 +6,8 @@
     "post-update-cmd" : "composer run config-phpcs",
     "config-phpcs": "phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs",
     "lint": "phpcs filter-force-refresh.php ./includes",
-    "beta": "wp dist-archive"
+    "beta": "wp dist-archive",
+    "test": "phpunit"
   },
   "require": {
     "php": ">=5.6"
@@ -14,6 +15,8 @@
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.5",
     "wp-coding-standards/wpcs": "^2.3",
-    "wp-cli/dist-archive-command": "^2.0"
+    "wp-cli/dist-archive-command": "^2.0",
+    "phpunit/phpunit": "^9.5",
+    "phpunit/php-code-coverage": "^9.2"
   }
 }

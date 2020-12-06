@@ -1,12 +1,18 @@
 <template>
   <div class="wrap">
-    <h1>Force Refresh</h1>
+    <h1 class="header" @click="headerClicked">
+      Force Refresh
+    </h1>
     <AdminNotification
       v-if="notificationMessage"
       :message="notificationMessage"
       @notification-closed="notificationWasClosed"
     />
+    <AdminDebugging
+      v-if="debuggingActive"
+    />
     <AdminMain
+      v-else
       :refresh-options="refreshOptions"
       :site-name="siteName"
       @refresh-requested="refreshSite"
@@ -18,6 +24,7 @@
 <script>
 import { sprintf } from 'sprintf-js';
 import VueTypes from 'vue-types';
+import AdminDebugging from '@/components/AdminDebugging/AdminDebugging.vue';
 import AdminMain from '@/components/AdminMain/AdminMain.vue';
 import AdminNotification from '@/components/AdminNotification/AdminNotification.vue';
 import { requestSiteRefresh, updateForceRefreshOptions } from '@/js/services/admin/refreshService';
@@ -30,6 +37,7 @@ const MESSAGE_SITE_SETTINGS_UPDATED_FAILURE = 'There was an issue updating your 
 export default {
   name: 'LayoutAdminMain',
   components: {
+    AdminDebugging,
     AdminMain,
     AdminNotification,
   },
@@ -56,6 +64,9 @@ export default {
       if (window.location.href.indexOf('optionsUpdated') > -1) {
         this.notificationMessage = MESSAGE_SITE_SETTINGS_UPDATED_SUCCESS;
       }
+    },
+    headerClicked() {
+      this.debuggingActive = !this.debuggingActive;
     },
     notificationWasClosed() {
       this.notificationMessage = null;
@@ -104,30 +115,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use '@/scss/utilities' as utils;
-@use '@/scss/variables' as var;
-
-$MAIN_WINDOW_WIDTH: 65%;
-
-.force-refresh__container {
-  @include utils.small() {
-    align-items: flex-start;
-    display: flex;
-  }
-}
-
-.force-refresh__main,
-.force-refresh-admin__options {
-  width: 100%;
-}
-
-@include utils.small() {
-  .force-refresh__main {
-    width: $MAIN_WINDOW_WIDTH;
-  }
-
-  .force-refresh-admin__options {
-    width: 100% - $MAIN_WINDOW_WIDTH;
-  }
+.header {
+  display: inline;
 }
 </style>

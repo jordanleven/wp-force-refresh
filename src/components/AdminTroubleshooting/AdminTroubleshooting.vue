@@ -22,6 +22,11 @@
       </li>
     </ul>
     <hr>
+    <h4>
+      Console
+    </h4>
+    <TroubleshootingConsole />
+    <hr>
     <button class="button-primary" @click="exitTroubleshooting">
       Exit Troubleshooting
     </button>
@@ -30,12 +35,14 @@
 
 <script>
 import VueTypes from 'vue-types';
+import TroubleshootingConsole from '@/components/TroubleshootingConsole/TroubleshootingConsole.vue';
 import TroubleshootingSettings from '@/components/TroubleshootingSettings/TroubleshootingSettings.vue';
 import TroubleshootingVersionsList from '@/components/TroubleshootingVersionsList/TroubleshootingVersionsList.vue';
 
 export default {
   name: 'AdminTroubleshooting',
   components: {
+    TroubleshootingConsole,
     TroubleshootingSettings,
     TroubleshootingVersionsList,
   },

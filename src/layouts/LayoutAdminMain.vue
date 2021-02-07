@@ -192,23 +192,23 @@ export default {
 @keyframes fade-and-scale-main {
   from {
     opacity: 0;
-    transform: scale(0.5);
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes fade-and-scale-troubleshooting {
-  from {
-    opacity: 0;
     transform: scale(2) translateY(-100px);
   }
 
   100% {
     opacity: 1;
     transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes fade-and-scale-troubleshooting {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  100% {
+    opacity: 1;
   }
 }
 
@@ -225,7 +225,7 @@ export default {
 }
 
 .fade-and-scale__main-enter-active {
-  transition-delay: var.$transition-medium;
+  animation-delay: var.$transition-medium;
   animation-duration: var.$transition-medium;
 }
 
@@ -240,7 +240,7 @@ export default {
 }
 
 .fade-and-scale__troubleshooting-enter-active {
-  transition-delay: var.$transition-medium;
+  animation-delay: var.$transition-medium;
   animation-duration: var.$transition-long;
 }
 

@@ -1,14 +1,14 @@
 <template>
-  <div class="debugging-container">
+  <div class="troubleshooting-container">
     <h2 class="header">
-      Debugging
+      Troubleshooting
     </h2>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'AdminDebugging',
+  name: 'AdminTroubleshooting',
 };
 </script>
 
@@ -16,7 +16,7 @@ export default {
 @use '@/scss/utilities' as utils;
 @use '@/scss/variables' as var;
 
-.debugging-container {
+.troubleshooting-container {
   width: 100%;
   padding: var.$space-small var.$space-medium;
   text-align: left;

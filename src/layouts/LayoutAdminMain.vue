@@ -5,15 +5,15 @@
     </h1>
     <AdminNotification v-if="notificationMessage" :message="notificationMessage" @notification-closed="notificationWasClosed" />
     <div class="admin-section">
-      <transition name="fade-and-scale__debugging">
-        <AdminDebugging
-          v-if="debuggingActive"
-          class="admin-section__debugging"
+      <transition name="fade-and-scale__troubleshooting">
+        <AdminTroubleshooting
+          v-if="troubleshootingActive"
+          class="admin-section__troubleshooting"
         />
       </transition>
       <transition name="fade-and-scale__main">
         <AdminMain
-          v-if="!debuggingActive"
+          v-if="!troubleshootingActive"
           class="admin-section__main"
           :refresh-options="refreshOptions"
           :site-name="siteName"
@@ -28,9 +28,9 @@
 <script>
 import { sprintf } from 'sprintf-js';
 import VueTypes from 'vue-types';
-import AdminDebugging from '@/components/AdminDebugging/AdminDebugging.vue';
 import AdminMain from '@/components/AdminMain/AdminMain.vue';
 import AdminNotification from '@/components/AdminNotification/AdminNotification.vue';
+import AdminTroubleshooting from '@/components/AdminTroubleshooting/AdminTroubleshooting.vue';
 import { requestSiteRefresh, updateForceRefreshOptions } from '@/js/services/admin/refreshService';
 
 const MESSAGE_SITE_REFRESHED_SUCCESS = "You've successfully refreshed your site. All connected browsers will refresh within %s seconds.";
@@ -39,24 +39,24 @@ const MESSAGE_SITE_SETTINGS_UPDATED_SUCCESS = "You've successfully updated setti
 const MESSAGE_SITE_SETTINGS_UPDATED_FAILURE = 'There was an issue updating your settings. Please try again.';
 
 /**
- * The number of clicks required before the debugging page show up.
+ * The number of clicks required before the troubleshooting page show up.
  * @var {Number}
  */
-const DEBUGGING_NUMBER_OF_CLICKS_REQUIRED_TO_VIEW = 3;
+const TROUBLESHOOTING_NUMBER_OF_CLICKS_REQUIRED_TO_VIEW = 3;
 
 /**
  * The number of milliseconds before a single click expires (to ensure clicks are deliberate to enter
- * the debugging page).
+ * the troubleshooting page).
  * @var {Number}
  */
-const DEBUGGING_TIMOUT_IN_MS = 1000;
+const TROUBLESHOOTING_TIMOUT_IN_MS = 1000;
 
 export default {
   name: 'LayoutAdminMain',
   components: {
-    AdminDebugging,
     AdminMain,
     AdminNotification,
+    AdminTroubleshooting,
   },
   props: {
     nonce: VueTypes.string.isRequired,
@@ -65,15 +65,15 @@ export default {
   },
   data() {
     return {
-      debuggingNumberOfClicks: 0,
-      debuggingPageIsActive: false,
       notificationMessage: null,
       options: null,
+      troubleshootingNumberOfClicks: 0,
+      troubleshootingPageIsActive: false,
     };
   },
   computed: {
-    debuggingActive() {
-      return this.debuggingPageIsActive;
+    troubleshootingActive() {
+      return this.troubleshootingPageIsActive;
     },
   },
   created() {
@@ -89,20 +89,20 @@ export default {
       }
     },
     /**
-     * Method used to handle when users are trying to invoke the debugging page. If the header is clicked
-     * a certain number of times within a set interval, we'll reveal the debugging page.
+     * Method used to handle when users are trying to invoke the troubleshooting page. If the header is clicked
+     * a certain number of times within a set interval, we'll reveal the troubleshooting page.
      * @return  {void}
      */
     headerClicked() {
-      this.debuggingNumberOfClicks += 1;
+      this.troubleshootingNumberOfClicks += 1;
 
-      if (this.debuggingNumberOfClicks >= DEBUGGING_NUMBER_OF_CLICKS_REQUIRED_TO_VIEW) {
-        this.debuggingPageIsActive = true;
+      if (this.troubleshootingNumberOfClicks >= TROUBLESHOOTING_NUMBER_OF_CLICKS_REQUIRED_TO_VIEW) {
+        this.troubleshootingPageIsActive = true;
       }
 
       setTimeout(() => {
-        this.debuggingNumberOfClicks -= 1;
-      }, DEBUGGING_TIMOUT_IN_MS);
+        this.troubleshootingNumberOfClicks -= 1;
+      }, TROUBLESHOOTING_TIMOUT_IN_MS);
     },
     notificationWasClosed() {
       this.notificationMessage = null;
@@ -164,7 +164,7 @@ export default {
 }
 
 .admin-section__main,
-.admin-section__debugging {
+.admin-section__troubleshooting {
   width: 100%;
   position: absolute;
 }
@@ -173,7 +173,7 @@ export default {
   z-index: 1;
 }
 
-.admin-section__debugging {
+.admin-section__troubleshooting {
   z-index: 2;
 }
 
@@ -188,7 +188,7 @@ export default {
   }
 }
 
-@keyframes fade-and-scale-debugging {
+@keyframes fade-and-scale-troubleshooting {
   from {
     opacity: 0;
     transform: scale(2) translateY(-100px);
@@ -202,8 +202,8 @@ export default {
 
 .fade-and-scale__main-enter-active,
 .fade-and-scale__main-leave-active,
-.fade-and-scale__debugging-enter-active,
-.fade-and-scale__debugging-leave-active {
+.fade-and-scale__troubleshooting-enter-active,
+.fade-and-scale__troubleshooting-leave-active {
   animation-fill-mode: both;
 }
 
@@ -221,23 +221,23 @@ export default {
   animation-duration: var.$transition-medium;
 }
 
-.fade-and-scale__debugging-enter-active,
-.fade-and-scale__debugging-leave-active {
+.fade-and-scale__troubleshooting-enter-active,
+.fade-and-scale__troubleshooting-leave-active {
   animation-duration: var.$transition-long;
-  animation-name: fade-and-scale-debugging;
+  animation-name: fade-and-scale-troubleshooting;
 }
 
-.fade-and-scale__debugging-enter-active {
+.fade-and-scale__troubleshooting-enter-active {
   transition-delay: var.$transition-medium;
   animation-duration: var.$transition-long;
 }
 
-.fade-and-scale__debugging-leave-active {
+.fade-and-scale__troubleshooting-leave-active {
   animation-duration: var.$transition-medium;
 }
 
 .fade-and-scale__main-leave-active,
-.fade-and-scale__debugging-leave-active {
+.fade-and-scale__troubleshooting-leave-active {
   animation-direction: reverse;
 }
 </style>

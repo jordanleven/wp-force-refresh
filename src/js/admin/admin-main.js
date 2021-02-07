@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import highlightJs from 'highlight.js';
 import Vue from 'vue';
 import LayoutAdminMain from '@/layouts/LayoutAdminMain.vue';
 
@@ -8,6 +9,7 @@ const localizedData = forceRefreshMain.localData;
 const { target } = localizedData;
 
 Vue.component('FontAwesomeIcon', FontAwesomeIcon);
+Vue.use(highlightJs.vuePlugin);
 
 // eslint-disable-next-line no-new
 new Vue({

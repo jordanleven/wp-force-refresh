@@ -21,6 +21,10 @@
         </div>
       </li>
     </ul>
+    <hr>
+    <button class="button-primary" @click="exitTroubleshooting">
+      Exit Troubleshooting
+    </button>
   </div>
 </template>
 
@@ -40,6 +44,11 @@ export default {
       settings: TroubleshootingSettings.props.settings,
       versions: TroubleshootingVersionsList.props.versions,
     }),
+  },
+  methods: {
+    exitTroubleshooting() {
+      this.$emit('exit-troubleshooting');
+    },
   },
 };
 </script>

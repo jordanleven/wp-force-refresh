@@ -10,6 +10,7 @@
           v-if="troubleshootingActive"
           class="admin-section__troubleshooting"
           :troubleshooting-info="troubleshootingInfo"
+          @exit-troubleshooting="exitTroubleshooting"
         />
       </transition>
       <transition name="fade-and-scale__main">
@@ -94,6 +95,9 @@ export default {
       if (window.location.href.indexOf('optionsUpdated') > -1) {
         this.notificationMessage = MESSAGE_SITE_SETTINGS_UPDATED_SUCCESS;
       }
+    },
+    exitTroubleshooting() {
+      this.troubleshootingPageIsActive = false;
     },
     /**
      * Method used to handle when users are trying to invoke the troubleshooting page. If the header is clicked

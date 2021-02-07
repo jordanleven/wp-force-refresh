@@ -31,7 +31,7 @@ import BaseDescriptiveList from '@/components/BaseDescriptiveList/BaseDescriptiv
 library.add([faCheckCircle, faTimesCircle]);
 
 export default {
-  name: 'PluginVersions',
+  name: 'TroubleshootingVersions',
   components: {
     BaseDescriptiveList,
   },

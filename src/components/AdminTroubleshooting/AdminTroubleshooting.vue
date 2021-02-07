@@ -9,7 +9,7 @@
           Installed Versions
         </h4>
         <div class="plugin-info__inner">
-          <PluginVersionsList :versions="troubleshootingInfo.versions" />
+          <TroubleshootingVersionsList :versions="troubleshootingInfo.versions" />
         </div>
       </li>
       <li class="plugin-info">
@@ -26,19 +26,19 @@
 
 <script>
 import VueTypes from 'vue-types';
-import PluginVersionsList from '@/components/PluginVersionsList/PluginVersionsList.vue';
 import TroubleshootingSettings from '@/components/TroubleshootingSettings/TroubleshootingSettings.vue';
+import TroubleshootingVersionsList from '@/components/TroubleshootingVersionsList/TroubleshootingVersionsList.vue';
 
 export default {
   name: 'AdminTroubleshooting',
   components: {
-    PluginVersionsList,
     TroubleshootingSettings,
+    TroubleshootingVersionsList,
   },
   props: {
     troubleshootingInfo: VueTypes.shape({
       settings: TroubleshootingSettings.props.settings,
-      versions: PluginVersionsList.props.versions,
+      versions: TroubleshootingVersionsList.props.versions,
     }),
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PluginVersions
+    <TroubleshootingVersions
       v-for="({ label, version, versionRequired }, index) in versions"
       :key="index"
       :label="label"
@@ -12,16 +12,16 @@
 
 <script>
 import VueTypes from 'vue-types';
-import PluginVersions from '@/components/PluginVersions/PluginVersions.vue';
+import TroubleshootingVersions from '@/components/TroubleshootingVersions/TroubleshootingVersions.vue';
 
 export default {
-  name: 'PluginVersionsList',
+  name: 'TroubleshootingVersionsList',
   components: {
-    PluginVersions,
+    TroubleshootingVersions,
   },
   props: {
     versions: VueTypes.arrayOf(
-      VueTypes.shape(PluginVersions.props),
+      VueTypes.shape(TroubleshootingVersions.props),
     ),
   },
 };

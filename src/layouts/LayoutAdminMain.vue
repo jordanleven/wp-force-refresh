@@ -178,7 +178,6 @@ export default {
 .admin-section__main,
 .admin-section__troubleshooting {
   width: 100%;
-  position: absolute;
 }
 
 .admin-section__main {
@@ -217,6 +216,7 @@ export default {
 .fade-and-scale__troubleshooting-enter-active,
 .fade-and-scale__troubleshooting-leave-active {
   animation-fill-mode: both;
+  position: absolute;
 }
 
 .fade-and-scale__main-enter-active,

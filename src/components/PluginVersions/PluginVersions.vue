@@ -1,20 +1,24 @@
 <template>
-  <dl
-    class="plugin-info"
+  <BaseDescriptiveList
+    class="plugin-versions"
     :class="pluginInfoClasses"
   >
-    <dt>
-      <span v-if="versionRequired" class="version-status">
-        <font-awesome-icon
-          class="version-status__icon"
-          :title="versionStatusMessage"
-          :icon="versionStatus"
-        />
-      </span>
-      {{ label }} Version:
-    </dt>
-    <dd>{{ version }}</dd>
-  </dl>
+    <template #term>
+      <div class="plugin-versions__label">
+        <span v-if="versionRequired" class="version-status">
+          <font-awesome-icon
+            class="version-status__icon"
+            :title="versionStatusMessage"
+            :icon="versionStatus"
+          />
+        </span>
+        {{ label }} Version:
+      </div>
+    </template>
+    <template #definition>
+      <span class="plugin-versions__version">{{ version }}</span>
+    </template>
+  </BaseDescriptiveList>
 </template>
 
 <script>
@@ -22,11 +26,15 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import compareVersions from 'compare-versions';
 import VueTypes from 'vue-types';
+import BaseDescriptiveList from '@/components/BaseDescriptiveList/BaseDescriptiveList.vue';
 
 library.add([faCheckCircle, faTimesCircle]);
 
 export default {
   name: 'PluginVersions',
+  components: {
+    BaseDescriptiveList,
+  },
   props: {
     label: VueTypes.string.isRequired,
     version: VueTypes.string.isRequired,
@@ -63,21 +71,6 @@ export default {
 @use '@/scss/variables' as var;
 
 $ICON_SIZE: 1.125rem;
-
-.plugin-info {
-  padding: var.$space-medium;
-  font-size: 0.825rem;
-  margin: 0;
-  position: relative;
-
-  &:nth-child(odd) {
-    background-color: rgba(var.$medium-grey, 0.5);
-  }
-
-  // &.plugin-info--error {
-  //   background-color: rgba(var.$red, 0.5);
-  // }
-}
 
 .version-status {
   position: absolute;
@@ -117,13 +110,12 @@ $ICON_SIZE: 1.125rem;
   }
 }
 
-dt {
+.plugin-versions__label {
   margin-left: 1.825rem;
   display: inline-block;
 }
 
-dd {
-  display: inline;
+.plugin-versions__version {
   @include utils.typeface-code();
 }
 </style>

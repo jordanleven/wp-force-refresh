@@ -41,6 +41,20 @@ function get_troubleshooting_info() {
     $force_refresh_plugin_data = get_plugin_data( get_main_plugin_file() );
 
     return array(
+        'settings' => array(
+            array(
+                'label' => 'Site Name',
+                'value' => get_bloginfo(),
+            ),
+            array(
+                'label' => 'Multisite Installation',
+                'value' => is_multisite(),
+            ),
+            array(
+                'label' => 'Current Site ID',
+                'value' => get_current_blog_id(),
+            ),
+        ),
         'versions' => array(
             array(
                 'label'           => 'PHP',

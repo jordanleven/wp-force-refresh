@@ -1,34 +1,44 @@
 <template>
   <div class="force-refresh-troubleshooting">
-    <h4 class="header">
-      Plugin Info
-    </h4>
-    <div class="force-refresh-troubleshooting__plugin-info">
-      <PluginVersions
-        v-for="({ label, version, versionRequired }, index) in troubleshootingInfo.versions"
-        :key="index"
-        :label="label"
-        :version="version"
-        :version-required="versionRequired"
-      />
-    </div>
+    <h2 class="header">
+      Troubleshooting
+    </h2>
+    <ul class="plugin-info__container">
+      <li class="plugin-info">
+        <h4 class="plugin-info__header">
+          Installed Versions
+        </h4>
+        <div class="plugin-info__inner">
+          <PluginVersionsList :versions="troubleshootingInfo.versions" />
+        </div>
+      </li>
+      <li class="plugin-info">
+        <h4 class="plugin-info__header">
+          Site Settings
+        </h4>
+        <div class="plugin-info__inner">
+          <TroubleshootingSettings :settings="troubleshootingInfo.settings" />
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 import VueTypes from 'vue-types';
-import PluginVersions from '@/components/PluginVersions/PluginVersions.vue';
+import PluginVersionsList from '@/components/PluginVersionsList/PluginVersionsList.vue';
+import TroubleshootingSettings from '@/components/TroubleshootingSettings/TroubleshootingSettings.vue';
 
 export default {
   name: 'AdminTroubleshooting',
   components: {
-    PluginVersions,
+    PluginVersionsList,
+    TroubleshootingSettings,
   },
   props: {
     troubleshootingInfo: VueTypes.shape({
-      versions: VueTypes.arrayOf(
-        VueTypes.shape(PluginVersions.props),
-      ),
+      settings: TroubleshootingSettings.props.settings,
+      versions: PluginVersionsList.props.versions,
     }),
   },
 };
@@ -42,7 +52,28 @@ export default {
   width: 100%;
 }
 
-.force-refresh-troubleshooting__plugin-info {
+.plugin-info__container {
+  display: flex;
+}
+
+.plugin-info {
+  width: 50%;
+
+  &:nth-child(odd) {
+    padding-right: var.$space-medium;
+  }
+
+  &:nth-child(even) {
+    padding-left: var.$space-medium;
+  }
+}
+
+.plugin-info__header {
+  margin: 0;
+}
+
+.plugin-info__inner {
+  margin-top: var.$space-small;
   padding: var.$space-medium 0;
   text-align: left;
   border: 2px solid var.$light_grey;

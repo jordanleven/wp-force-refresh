@@ -70,7 +70,7 @@ export default {
       notificationMessage: null,
       options: null,
       troubleshootingNumberOfClicks: 0,
-      troubleshootingPageIsActive: false,
+      troubleshootingPageIsActive: true,
     };
   },
   computed: {

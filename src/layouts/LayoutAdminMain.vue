@@ -3,21 +3,25 @@
     <h1 class="header" @click="headerClicked">
       Force Refresh
     </h1>
-    <AdminNotification
-      v-if="notificationMessage"
-      :message="notificationMessage"
-      @notification-closed="notificationWasClosed"
-    />
-    <AdminDebugging
-      v-if="debuggingActive"
-    />
-    <AdminMain
-      v-else
-      :refresh-options="refreshOptions"
-      :site-name="siteName"
-      @refresh-requested="refreshSite"
-      @options-were-updated="updateOptions"
-    />
+    <AdminNotification v-if="notificationMessage" :message="notificationMessage" @notification-closed="notificationWasClosed" />
+    <div class="admin-section">
+      <transition name="fade-and-scale__debugging">
+        <AdminDebugging
+          v-if="debuggingActive"
+          class="admin-section__debugging"
+        />
+      </transition>
+      <transition name="fade-and-scale__main">
+        <AdminMain
+          v-if="!debuggingActive"
+          class="admin-section__main"
+          :refresh-options="refreshOptions"
+          :site-name="siteName"
+          @refresh-requested="refreshSite"
+          @options-were-updated="updateOptions"
+        />
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -34,6 +38,19 @@ const MESSAGE_SITE_REFRESHED_FAILURE = 'There was an issue refreshing your site.
 const MESSAGE_SITE_SETTINGS_UPDATED_SUCCESS = "You've successfully updated settings for Force Refresh.";
 const MESSAGE_SITE_SETTINGS_UPDATED_FAILURE = 'There was an issue updating your settings. Please try again.';
 
+/**
+ * The number of clicks required before the debugging page show up.
+ * @var {Number}
+ */
+const DEBUGGING_NUMBER_OF_CLICKS_REQUIRED_TO_VIEW = 3;
+
+/**
+ * The number of milliseconds before a single click expires (to ensure clicks are deliberate to enter
+ * the debugging page).
+ * @var {Number}
+ */
+const DEBUGGING_TIMOUT_IN_MS = 1000;
+
 export default {
   name: 'LayoutAdminMain',
   components: {
@@ -48,10 +65,16 @@ export default {
   },
   data() {
     return {
-      debuggingActive: false,
+      debuggingNumberOfClicks: 0,
+      debuggingPageIsActive: false,
       notificationMessage: null,
       options: null,
     };
+  },
+  computed: {
+    debuggingActive() {
+      return this.debuggingPageIsActive;
+    },
   },
   created() {
     this.options = this.refreshOptions;
@@ -65,8 +88,21 @@ export default {
         this.notificationMessage = MESSAGE_SITE_SETTINGS_UPDATED_SUCCESS;
       }
     },
+    /**
+     * Method used to handle when users are trying to invoke the debugging page. If the header is clicked
+     * a certain number of times within a set interval, we'll reveal the debugging page.
+     * @return  {void}
+     */
     headerClicked() {
-      this.debuggingActive = !this.debuggingActive;
+      this.debuggingNumberOfClicks += 1;
+
+      if (this.debuggingNumberOfClicks >= DEBUGGING_NUMBER_OF_CLICKS_REQUIRED_TO_VIEW) {
+        this.debuggingPageIsActive = true;
+      }
+
+      setTimeout(() => {
+        this.debuggingNumberOfClicks -= 1;
+      }, DEBUGGING_TIMOUT_IN_MS);
     },
     notificationWasClosed() {
       this.notificationMessage = null;
@@ -115,7 +151,93 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@/scss/variables' as var;
+
 .header {
   display: inline;
+  user-select: none;
+}
+
+.admin-section {
+  position: relative;
+  padding-top: var.$space-medium;
+}
+
+.admin-section__main,
+.admin-section__debugging {
+  width: 100%;
+  position: absolute;
+}
+
+.admin-section__main {
+  z-index: 1;
+}
+
+.admin-section__debugging {
+  z-index: 2;
+}
+
+@keyframes fade-and-scale-main {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-and-scale-debugging {
+  from {
+    opacity: 0;
+    transform: scale(2) translateY(-100px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.fade-and-scale__main-enter-active,
+.fade-and-scale__main-leave-active,
+.fade-and-scale__debugging-enter-active,
+.fade-and-scale__debugging-leave-active {
+  animation-fill-mode: both;
+}
+
+.fade-and-scale__main-enter-active,
+.fade-and-scale__main-leave-active {
+  animation-name: fade-and-scale-main;
+}
+
+.fade-and-scale__main-enter-active {
+  transition-delay: var.$transition-medium;
+  animation-duration: var.$transition-medium;
+}
+
+.fade-and-scale__main-leave-active {
+  animation-duration: var.$transition-medium;
+}
+
+.fade-and-scale__debugging-enter-active,
+.fade-and-scale__debugging-leave-active {
+  animation-duration: var.$transition-long;
+  animation-name: fade-and-scale-debugging;
+}
+
+.fade-and-scale__debugging-enter-active {
+  transition-delay: var.$transition-medium;
+  animation-duration: var.$transition-long;
+}
+
+.fade-and-scale__debugging-leave-active {
+  animation-duration: var.$transition-medium;
+}
+
+.fade-and-scale__main-leave-active,
+.fade-and-scale__debugging-leave-active {
+  animation-direction: reverse;
 }
 </style>

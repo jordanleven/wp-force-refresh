@@ -14,6 +14,8 @@ Plugin Name: Force Refresh
 Plugin URI:
 Description: Force Refresh is a simple plugin that allows you to force a page refresh for users currently visiting your site.
 Version: 2.2.0
+Requires at least: 5.2
+Requires PHP: 7.2
 Author: Jordan Leven
 Author URI: https://github.com/jordanleven
 Contributors:
@@ -24,6 +26,8 @@ Contributors:
 // Define the name of the action for the refresh. This is used with the nonce to create a unique
 // action when admins request a refresh.
 define( 'WP_FORCE_REFRESH_ACTION', 'wp_force_refresh' );
+// The slug used for Force Refresh on the WordPress.org site.
+define( 'WP_FORCE_REFRESH_REPOSITORY_SLUG', 'force-refresh' );
 // Define the name of the capability used to invoke a refresh. This is used for developers who want
 // to fine-tune control of what types of users and roles can request a refresh.
 define( 'WP_FORCE_REFRESH_CAPABILITY', 'invoke_force_refresh' );

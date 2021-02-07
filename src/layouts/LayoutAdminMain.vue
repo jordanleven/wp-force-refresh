@@ -9,6 +9,7 @@
         <AdminTroubleshooting
           v-if="troubleshootingActive"
           class="admin-section__troubleshooting"
+          :troubleshooting-info="troubleshootingInfo"
         />
       </transition>
       <transition name="fade-and-scale__main">
@@ -62,6 +63,7 @@ export default {
     nonce: VueTypes.string.isRequired,
     refreshOptions: VueTypes.object.isRequired,
     siteName: VueTypes.string.isRequired,
+    troubleshootingInfo: VueTypes.object.isRequired,
   },
   data() {
     return {
@@ -72,6 +74,11 @@ export default {
     };
   },
   computed: {
+    headerClass() {
+      return [
+        this.troubleshootingPageIsActive && 'header--troubleshooting-active',
+      ];
+    },
     troubleshootingActive() {
       return this.troubleshootingPageIsActive;
     },
@@ -152,6 +159,7 @@ export default {
 
 <style lang="scss" scoped>
 @use '@/scss/variables' as var;
+@use '@/scss/utilities' as utils;
 
 .header {
   display: inline;

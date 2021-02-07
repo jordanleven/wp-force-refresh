@@ -7,6 +7,8 @@
 
 namespace JordanLeven\Plugins\ForceRefresh;
 
+require __DIR__ . '/inc.troubleshooting.php';
+
 // The ID of the container we'll append our force refresh component to.
 define( 'HTML_ID_MAIN', 'force-refresh-main' );
 // The name of the main admin JS file.
@@ -31,16 +33,16 @@ function manage_force_refresh() {
     );
     // Include the admin JS.
     add_script( FILE_NAME_ADMIN_MAIN, '/dist/js/force-refresh-main.js', true );
-
     $localized_data = array(
         // Wrap in inner array to preserve primitive types.
         'localData' => array(
-            'siteId'         => get_current_blog_id(),
+            'troubleshootingInfo' => get_troubleshooting_info(),
+            'siteId'              => get_current_blog_id(),
             // Create a nonce for the user.
-            'nonce'          => wp_create_nonce( WP_FORCE_REFRESH_ACTION ),
-            'siteName'       => get_bloginfo(),
-            'target'         => '#' . HTML_ID_MAIN,
-            'refreshOptions' => array(
+            'nonce'               => wp_create_nonce( WP_FORCE_REFRESH_ACTION ),
+            'siteName'            => get_bloginfo(),
+            'target'              => '#' . HTML_ID_MAIN,
+            'refreshOptions'      => array(
                 // Add the refresh interval.
                 'refreshInterval'      => (int) $refresh_interval,
                 'showRefreshInMenuBar' => 'true' === $show_force_refresh_in_menu_bar,
